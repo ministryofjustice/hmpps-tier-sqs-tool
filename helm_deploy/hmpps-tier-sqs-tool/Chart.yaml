@@ -1,7 +1,7 @@
 apiVersion: v2
 appVersion: "1.0"
 description: A Helm chart for Kubernetes
-name: hmpps-template-kotlin
+name: hmpps-tier-sqs-tool
 version: 0.1.0
 
 dependencies:
