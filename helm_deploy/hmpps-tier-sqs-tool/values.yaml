@@ -10,7 +10,7 @@ generic-service:
     port: 8080
 
   ingress:
-    enabled: true
+    enabled: false
     host: app-hostname.local    # override per environment
     tlsSecretName: hmpps-tier-sqs-tool-cert
     path: /
@@ -28,7 +28,7 @@ generic-service:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
 
   namespace_secrets:
-    hmpps-tier-sqs-tool:
+    hmpps-tier:
       APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
 
   allowlist:
