@@ -1,8 +1,6 @@
 package uk.gov.justice.digital.hmpps.hmppstiersqstool.jpa.entity
 
-import org.hibernate.annotations.Type
 import java.time.LocalDateTime
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -12,8 +10,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "calculation_request")
-data class CalculationRequestEntity
-(
+data class CalculationRequestEntity(
 
   @Id
   @Column
@@ -30,5 +27,5 @@ data class CalculationRequestEntity
   var processed: LocalDateTime? = null,
 
   @Column
-  var messageId: UUID? = null,
+  var messageId: String? = null,
 )

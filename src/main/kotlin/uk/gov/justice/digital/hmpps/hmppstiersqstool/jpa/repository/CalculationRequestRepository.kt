@@ -9,8 +9,7 @@ import uk.gov.justice.digital.hmpps.hmppstiersqstool.jpa.entity.CalculationReque
 @Repository
 interface CalculationRequestRepository : PagingAndSortingRepository<CalculationRequestEntity, Long> {
 
-  fun findFirstByCrn(crn: String) : CalculationRequestEntity?
+  fun findFirstByCrn(crn: String): CalculationRequestEntity?
 
-  override fun findAll(pageable : Pageable): Page<CalculationRequestEntity>
-
+  fun findAllByProcessedIsNull(pageable: Pageable): Page<CalculationRequestEntity>
 }
