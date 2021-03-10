@@ -9,8 +9,8 @@ see https://github.com/ministryofjustice/dps-project-bootstrap.
 
 ## Renaming from HMPPS Template Kotlin - github Actions
 
-Once the new repository is deployed. Navigate to the repository in github, and select the `Actions` tab.
-Click the link to `Enable Actions on this repository`.
+Once the new uk.gov.justice.digital.hmpps.hmppstiersqstool.repository is deployed. Navigate to the uk.gov.justice.digital.hmpps.hmppstiersqstool.repository in github, and select the `Actions` tab.
+Click the link to `Enable Actions on this uk.gov.justice.digital.hmpps.hmppstiersqstool.repository`.
 
 Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`.  This workflow will will
 execute the `rename-project.bash` and create Pull Request for you to review.  Review the PR and merge.
