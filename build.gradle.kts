@@ -42,3 +42,7 @@ dependencyManagement {
   }
 }
 
+tasks.named<JavaExec>("bootRun") {
+  systemProperty("spring.profiles.active", "dev,aws")
+}
+
