@@ -33,7 +33,7 @@ class CalculationRequestService(
     val now = LocalDateTime.now()
     crns
       .filter { crn -> calculationRequestRepository.findFirstByCrn(crn).also { log.info("Checking for Duplicate: $crn") } == null }
-      .chunked(1000)
+      .chunked(5000)
       .map {
         it.map { crn -> CalculationRequestEntity(crn = crn, created = now) }
       }
@@ -48,9 +48,9 @@ class CalculationRequestService(
       val crnRequests = calculationRequestRepository.findAllByProcessedIsNull(PageRequest.of(0, PAGE_SIZE)).also {
         log.info("Fetched ${it.numberOfElements} calculation requests")
       }
-      crnRequests.get().toList().map { it.crn }.chunked(5).forEach { crns ->
+      crnRequests.get().toList().map { it.crn }.chunked(6).forEach { crns ->
         sendMessagesFromList(crns).forEach { updateSentEntity(it.id, it.messageId) }
-        Thread.sleep(1000L)
+        Thread.sleep(1500L)
       }
     } while (crnRequests.totalPages > 1)
   }
