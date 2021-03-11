@@ -31,7 +31,6 @@ dependencies {
   implementation("com.opencsv:opencsv:5.2")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-
 }
 
 extra["springCloudVersion"] = "Hoxton.SR8"
@@ -45,4 +44,3 @@ dependencyManagement {
 tasks.named<JavaExec>("bootRun") {
   systemProperty("spring.profiles.active", "dev,aws")
 }
-
