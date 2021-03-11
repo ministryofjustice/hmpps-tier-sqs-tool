@@ -3,6 +3,9 @@ info.app:
   version: 1.0
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
   application:
     name: hmpps-tier-sqs-tool
   codec:

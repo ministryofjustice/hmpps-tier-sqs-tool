@@ -28,6 +28,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
 
   implementation("org.springframework.cloud:spring-cloud-aws-messaging")
+  implementation("com.opencsv:opencsv:5.2")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
