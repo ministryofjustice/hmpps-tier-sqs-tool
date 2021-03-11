@@ -1,16 +1,26 @@
-# hmpps-template-kotlin
+# hmpps-tier-sqs-tool
 
-This is a skeleton project from which to create new kotlin projects from.
+Feed the tier calculation required SQS 
 
 # Instructions
 
-If this is a Digital Prison Services project then the project will be created as part of bootstrapping - 
-see https://github.com/ministryofjustice/dps-project-bootstrap.
+Run from your laptop terminal
+
+`docker-compose up -d
+AWS_OFFENDER_EVENTS_QUEUE=SOME_URL AWS_OFFENDER_EVENTS_ACCESS_KEY=SOME_KEY AWS_OFFENDER_EVENTS_SECRET_ACCESS_KEY=SOME_SECRET ./gradlew bootRun`
+
+
+CURL example to trigger a single tier calculation
+
+`curl http://localhost:8080/body/send --request POST -d '["X387579"]' -H "Content-Type: application/json"`
+
+
+-------
 
 ## Renaming from HMPPS Template Kotlin - github Actions
 
-Once the new repository is deployed. Navigate to the repository in github, and select the `Actions` tab.
-Click the link to `Enable Actions on this repository`.
+Once the new uk.gov.justice.digital.hmpps.hmppstiersqstool.repository is deployed. Navigate to the uk.gov.justice.digital.hmpps.hmppstiersqstool.repository in github, and select the `Actions` tab.
+Click the link to `Enable Actions on this uk.gov.justice.digital.hmpps.hmppstiersqstool.repository`.
 
 Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`.  This workflow will will
 execute the `rename-project.bash` and create Pull Request for you to review.  Review the PR and merge.

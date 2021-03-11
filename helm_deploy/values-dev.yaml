@@ -1,5 +1,12 @@
----
-# Per environment values which override defaults in hmpps-tier-sqs-tool/values.yaml
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
-generic-service:
-  replicaCount: 1
+replicaCount: 1
+
+image:
+  repository: quay.io/hmpps/hmpps-tier-sqs-tool
+  tag: latest
+  port: 8080
+
+env:
+  JAVA_OPTS: "-Xmx512m"
