@@ -29,18 +29,19 @@ class CalculationRequestService(
   @Value("\${offender-events.sqs-queue}") val queueUrl: String
 ) {
 
-  fun addToDatabase(crns: Collection<String>) =
-    crns.forEach { crn ->
-      calculationRequestRepository.findFirstByCrn(crn).let {
-        if (it == null) {
-          calculationRequestRepository.save(CalculationRequestEntity(crn = crn, created = LocalDateTime.now()))
-          log.info("Saved $crn")
-        } else {
-          log.info("Already added $crn, skipping")
-          log.info(it.toString())
-        }
+  fun addToDatabase(crns: Collection<String>) {
+    val now = LocalDateTime.now()
+    crns
+      .filter { crn -> calculationRequestRepository.findFirstByCrn(crn).also { log.info("Checking for Duplicate: $crn") } == null }
+      .chunked(10000)
+      .map {
+        it.map { crn -> CalculationRequestEntity(crn = crn, created = now) }
       }
-    }
+      .forEach {
+        calculationRequestRepository.saveAll(it)
+        log.info("Saved $it")
+      }
+  }
 
   fun sendMessagesFromDatabase() {
     do {
