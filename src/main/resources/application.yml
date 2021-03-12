@@ -21,7 +21,7 @@ spring:
       test:
         - "stdout"
 
-  datasource
+  datasource:
     url: 'jdbc:postgresql://${database.endpoint:localhost:5432}/${database.name:postgres}?stringtype=unspecified'
     username: '${database.username:root}'
     password: '${database.password:dev}'
