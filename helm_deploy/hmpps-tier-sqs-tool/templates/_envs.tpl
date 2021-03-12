@@ -34,7 +34,7 @@ env:
   - name: APPINSIGHTS_INSTRUMENTATIONKEY
     valueFrom:
       secretKeyRef:
-        name: {{ template "app.name" . }}
+        name: hmpps-tier
         key: APPINSIGHTS_INSTRUMENTATIONKEY
 
   - name: DATABASE_USERNAME
