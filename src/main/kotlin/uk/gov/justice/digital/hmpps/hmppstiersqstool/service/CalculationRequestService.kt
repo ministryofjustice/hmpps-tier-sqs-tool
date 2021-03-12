@@ -31,7 +31,7 @@ class CalculationRequestService(
         }
         amazonSQS.sendMessageBatch(SendMessageBatchRequest(queueUrl, messageRequests))
         log.info("Sent Batch")
-        //Thread.sleep(1000L)
+        // Thread.sleep(1000L)
       }
   }
 
