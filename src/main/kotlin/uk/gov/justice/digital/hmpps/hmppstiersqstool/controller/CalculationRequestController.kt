@@ -16,25 +16,13 @@ import uk.gov.justice.digital.hmpps.hmppstiersqstool.service.CalculationRequestS
 @RequestMapping(produces = [APPLICATION_JSON_VALUE])
 class CalculationRequestController(private val calculationRequestService: CalculationRequestService) {
 
-  @PutMapping("/database/add")
-  fun addCrnsToDatabase(@RequestBody crns: Collection<String>): ResponseEntity<String> {
-    calculationRequestService.addToDatabase(crns)
-    return ResponseEntity.ok().body("ok")
-  }
-
-  @GetMapping("/database/send")
-  fun sendMessagesFromDatabase(): ResponseEntity<String> {
-    calculationRequestService.sendMessagesFromDatabase()
-    return ResponseEntity.ok().body("ok")
-  }
-
-  @PutMapping("/database/file")
+  @PutMapping("/file")
   fun uploadCsvFile(@RequestParam("file") file: MultipartFile): ResponseEntity<String> {
     calculationRequestService.uploadCsvFile(file)
     return ResponseEntity.ok().body("ok")
   }
 
-  @PostMapping("/body/send")
+  @PostMapping("/send")
   fun sendMessagesFromMessageBody(@RequestBody crns: Collection<String>): ResponseEntity<String> {
     calculationRequestService.sendMessagesFromList(crns)
     return ResponseEntity.ok().body("ok")
