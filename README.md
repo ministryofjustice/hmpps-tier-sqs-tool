@@ -2,7 +2,7 @@
 
 A utility to manually trigger the recalculation of service users's Tier score.
 
-`hmpps-tier-sqs-tool` is used to create a message or messages on the SNS instance `hmpps-tier` uses to subscribe to the Offender Events SNS and so force it to perform a calculation for te subject of the message.
+`hmpps-tier-sqs-tool` is used to create a message or messages on the SNS instance `hmpps-tier` uses to subscribe to the Offender Events SNS and so force it to perform a calculation for the subject of the message.
 
 # Starting an instance
 
