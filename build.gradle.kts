@@ -13,16 +13,9 @@ configurations {
 dependencies {
   annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-  runtimeOnly("com.h2database:h2:1.4.200")
-  runtimeOnly("org.postgresql:postgresql")
-  runtimeOnly("com.zaxxer:HikariCP:3.4.5")
-  runtimeOnly("org.flywaydb:flyway-core:6.5.6")
-
   implementation("org.springframework:spring-webflux")
   implementation("org.springframework.boot:spring-boot-starter-reactor-netty")
 
-  implementation("org.springframework.boot:spring-boot-starter-jdbc")
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
