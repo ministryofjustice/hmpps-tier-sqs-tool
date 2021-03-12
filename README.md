@@ -1,42 +1,34 @@
 # hmpps-tier-sqs-tool
 
-Feed the tier calculation required SQS 
+A utility to manually trigger the recalculation of service users's Tier score.
 
-# Instructions
+`hmpps-tier-sqs-tool` is used to create a message or messages on the SNS instance `hmpps-tier` uses to subscribe to the Offender Events SNS and so force it to perform a calculation for te subject of the message.
 
-Run from your laptop terminal
+# Starting an instance
+
+**Use the deployed instances**
+
+The tool is deployed to `hmpps-tier-dev` and `hmpps-tier-preprod` environments, and can be port forwarded to in the normal kubernetes way. It might need to be scaled up first!
+
+`kubectl port-forward deployment/hmpps-tier-sqs-tool 8080:8080`
+
+**Run from your laptop terminal**
 
 `docker-compose up -d
 AWS_OFFENDER_EVENTS_QUEUE=SOME_URL AWS_OFFENDER_EVENTS_ACCESS_KEY=SOME_KEY AWS_OFFENDER_EVENTS_SECRET_ACCESS_KEY=SOME_SECRET ./gradlew bootRun`
 
 
-CURL example to trigger a single tier calculation
+# Available Endpoints
 
-`curl http://localhost:8080/body/send --request POST -d '["X387579"]' -H "Content-Type: application/json"`
+There are two endpoints `POST /file` and `POST /send`
 
+`/file` allows you to upload a csv and create messages from that.
+The format must be a single column of CRNs with 'CRN' as the header of that column.
+
+`curl http://localhost:8080/file --request POST --form 'file=@"somefile.csv"'`
+
+`/send` allows you to pass an array of CRNs in the body of the message instead.
+
+`curl http://localhost:8080/send --request POST -d '["X387579"]' -H "Content-Type: application/json"`
 
 -------
-
-## Renaming from HMPPS Template Kotlin - github Actions
-
-Once the new uk.gov.justice.digital.hmpps.hmppstiersqstool.repository is deployed. Navigate to the uk.gov.justice.digital.hmpps.hmppstiersqstool.repository in github, and select the `Actions` tab.
-Click the link to `Enable Actions on this uk.gov.justice.digital.hmpps.hmppstiersqstool.repository`.
-
-Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`.  This workflow will will
-execute the `rename-project.bash` and create Pull Request for you to review.  Review the PR and merge.
-
-Note: ideally this workflow would run automatically however due to a recent change github Actions are not
-enabled by default on newly created repos. There is no way to enable Actions other then to click the button in the UI.
-If this situation changes we will update this project so that the workflow is triggered during the bootstrap project.
-Further reading: <https://github.community/t/workflow-isnt-enabled-in-repos-generated-from-template/136421>
-
-## Manually renaming from HMPPS Template Kotlin
-
-Run the `rename-project.bash` and create a PR.
-
-The `rename-project.bash` script takes a single argument - the name of the project and calculates from it:
-* The main class name (project name converted to pascal case) 
-* The project description (class name with spaces between the words)
-* The main package name (project name with hyphens removed)
-
-It then performs a search and replace and directory renames so the project is ready to be used.
