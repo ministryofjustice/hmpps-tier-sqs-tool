@@ -25,7 +25,6 @@ spring:
     url: 'jdbc:postgresql://${database.endpoint:localhost:5432}/${database.name:postgres}?stringtype=unspecified'
     username: '${database.username:root}'
     password: '${database.password:dev}'
-    schema: sqstool
 
     hikari:
       maximum-pool-size: 25

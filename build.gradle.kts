@@ -37,3 +37,7 @@ dependencyManagement {
 tasks.named<JavaExec>("bootRun") {
   systemProperty("spring.profiles.active", "dev,aws")
 }
+
+tasks.register("fix") {
+  dependsOn(":ktlintFormat")
+}
