@@ -20,7 +20,8 @@ dependencies {
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
 
-  implementation("org.springframework.cloud:spring-cloud-aws-messaging")
+  implementation("org.springframework:spring-jms")
+  implementation("com.amazonaws:amazon-sqs-java-messaging-lib:1.0.8")
   implementation("com.opencsv:opencsv:5.2")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -36,4 +37,8 @@ dependencyManagement {
 
 tasks.named<JavaExec>("bootRun") {
   systemProperty("spring.profiles.active", "dev,aws")
+}
+
+tasks.register("fix") {
+  dependsOn(":ktlintFormat")
 }
