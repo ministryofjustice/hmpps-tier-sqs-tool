@@ -9,23 +9,33 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 
 @Configuration
-@ConditionalOnProperty(name = ["offender-events.sqs-provider"], havingValue = "aws")
+@ConditionalOnProperty(name = ["sqs-provider"], havingValue = "aws")
 class AwsConfiguration(
-  @Value("\${aws.access-key-id}") val accessKeyId: String,
-  @Value("\${aws.secret-access-key}") val secretKey: String,
-  @Value("\${aws.region}") val region: String
+  @Value("\${offender-events.access-key-id}") val eventAccessKeyId: String,
+  @Value("\${offender-events.secret-access-key}") val eventSecretKey: String,
+  @Value("\${offender-events.region}") val eventRegion: String,
+  @Value("\${offender-events-dlq.access-key-id}") val dlqAccessKeyId: String,
+  @Value("\${offender-events-dlq.secret-access-key}") val dlqSecretKey: String,
+  @Value("\${offender-events-dlq.region}") val dlqRegion: String
 ) {
 
-  @Primary
-  @Bean(name = ["awsClient"])
-  fun amazonSQSAsync(): AmazonSQSAsync {
-    val credentials: AWSCredentials = BasicAWSCredentials(accessKeyId, secretKey)
+  @Bean(name = ["eventAwsSqsClient"])
+  fun eventAwsSqsClient(): AmazonSQSAsync {
+    val credentials: AWSCredentials = BasicAWSCredentials(eventAccessKeyId, eventSecretKey)
     return AmazonSQSAsyncClientBuilder
       .standard()
-      .withRegion(region)
+      .withRegion(eventRegion)
+      .withCredentials(AWSStaticCredentialsProvider(credentials)).build()
+  }
+
+  @Bean(name = ["eventAwsSqsDlqClient"])
+  fun eventAwsSqsDlqClient(): AmazonSQSAsync {
+    val credentials: AWSCredentials = BasicAWSCredentials(dlqAccessKeyId, dlqSecretKey)
+    return AmazonSQSAsyncClientBuilder
+      .standard()
+      .withRegion(dlqRegion)
       .withCredentials(AWSStaticCredentialsProvider(credentials)).build()
   }
 }

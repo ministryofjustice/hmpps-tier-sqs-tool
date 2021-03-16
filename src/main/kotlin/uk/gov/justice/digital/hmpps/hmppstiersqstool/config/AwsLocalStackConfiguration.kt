@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 
 @Configuration
-@ConditionalOnProperty(name = ["offender-events.sqs-provider"], havingValue = "localstack")
+@ConditionalOnProperty(name = ["sqs-provider"], havingValue = "localstack")
 class AwsLocalStackConfiguration(
   @Value("\${aws.access-key-id}") val accessKeyId: String,
   @Value("\${aws.secret-access-key}") val secretKey: String,
@@ -22,7 +22,7 @@ class AwsLocalStackConfiguration(
   @Primary
   @Bean(name = ["localStackClient"])
   fun awsSqsClientLocalstack(
-    @Value("\${offender-events.sqs-endpoint-url}") serviceEndpoint: String
+    @Value("\${localstack.sqs-endpoint-url}") serviceEndpoint: String
   ): AmazonSQSAsync {
     return AmazonSQSAsyncClientBuilder.standard()
       .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(serviceEndpoint, region))
