@@ -20,19 +20,10 @@ dependencies {
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
 
-  implementation("org.springframework:spring-jms")
   implementation("com.amazonaws:amazon-sqs-java-messaging-lib:1.0.8")
   implementation("com.opencsv:opencsv:5.2")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-}
-
-extra["springCloudVersion"] = "Hoxton.SR8"
-
-dependencyManagement {
-  imports {
-    mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-  }
 }
 
 tasks.named<JavaExec>("bootRun") {
