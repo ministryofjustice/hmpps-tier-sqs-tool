@@ -29,7 +29,8 @@ class CalculationRequestController(private val calculationRequestService: Calcul
   }
 
   @GetMapping("/dlq/transfer")
-  fun moveMessagesToMainQueue() {
+  fun moveMessagesToMainQueue(): ResponseEntity<String>  {
     queueAdminService.transferEventMessages()
+    return ResponseEntity.ok().body("ok")
   }
 }
