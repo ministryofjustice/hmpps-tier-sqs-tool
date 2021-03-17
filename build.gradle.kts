@@ -29,3 +29,7 @@ dependencies {
 tasks.register("fix") {
   dependsOn(":ktlintFormat")
 }
+
+tasks.withType<Test>() {
+  exclude("**/TransferQueueTest*")
+}
