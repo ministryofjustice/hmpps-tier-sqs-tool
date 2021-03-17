@@ -26,10 +26,6 @@ dependencies {
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
-//tasks.named<JavaExec>("bootRun") {
-//  systemProperty("spring.profiles.active", "dev,aws")
-//}
-
 tasks.register("fix") {
   dependsOn(":ktlintFormat")
 }
