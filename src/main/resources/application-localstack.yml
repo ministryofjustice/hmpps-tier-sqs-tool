@@ -6,6 +6,6 @@ offender-events:
   region: eu-west-2
 
 offender-events-dlq:
-  endpoint: http://localhost:4577
-  sqs-queue: http://localhost:4577/queue/Digital-Prison-Services-dev-hmpps_tier_offender_events_queue_dl
+  endpoint: http://localhost:4576
+  sqs-queue: http://localhost:4576/queue/Digital-Prison-Services-dev-hmpps_tier_offender_events_queue_dl
   region: eu-west-2

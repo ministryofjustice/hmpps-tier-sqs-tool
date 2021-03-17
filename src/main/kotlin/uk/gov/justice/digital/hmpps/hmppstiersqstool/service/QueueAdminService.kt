@@ -30,8 +30,12 @@ class QueueAdminService(
         }
     }
 
-  private fun getEventDlqMessageCount() =
-    eventAwsSqsDlqClient.getQueueAttributes(eventDlqUrl, listOf("ApproximateNumberOfMessages"))
+  private fun getEventDlqMessageCount(): Int {
+
+    val dlqMessageCount = eventAwsSqsDlqClient.getQueueAttributes(eventDlqUrl, listOf("ApproximateNumberOfMessages"))
       .attributes["ApproximateNumberOfMessages"]
       ?.toInt() ?: 0
+    log.info("Transferring $dlqMessageCount from $eventDlqUrl to $eventQueueUrl")
+    return dlqMessageCount
+  }
 }

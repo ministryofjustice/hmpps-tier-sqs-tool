@@ -20,7 +20,10 @@ OFFENDER_EVENTS_DLQ_QUEUE=DLQURL OFFENDER_EVENTS_DLQ_ACCESS_KEY=DLQKEY OFFENDER_
 
 **Run from your laptop terminal against Localstack**
 
+Start up localstack to get the event queue and DLQ with one message on each
+
 `
+docker-compose up -d
 SPRING_PROFILES_ACTIVE=dev,localstack ./gradlew bootRun
 `
 
