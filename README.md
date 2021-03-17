@@ -12,10 +12,16 @@ The tool is deployed to `hmpps-tier-dev` and `hmpps-tier-preprod` environments, 
 
 `kubectl port-forward deployment/hmpps-tier-sqs-tool 8080:8080`
 
-**Run from your laptop terminal**
+**Run from your laptop terminal against AWS**
 
 `
-OFFENDER_EVENTS_DLQ_QUEUE=DLQURL OFFENDER_EVENTS_DLQ_ACCESS_KEY=DLQKEY OFFENDER_EVENTS_DLQ_SECRET_ACCESS_KEY=DLQSECRET OFFENDER_EVENTS_QUEUE=URL OFFENDER_EVENTS_ACCESS_KEY=KEY OFFENDER_EVENTS_SECRET_ACCESS_KEY=SECRET ./gradlew bootRun
+OFFENDER_EVENTS_DLQ_QUEUE=DLQURL OFFENDER_EVENTS_DLQ_ACCESS_KEY=DLQKEY OFFENDER_EVENTS_DLQ_SECRET_ACCESS_KEY=DLQSECRET OFFENDER_EVENTS_QUEUE=URL OFFENDER_EVENTS_ACCESS_KEY=KEY OFFENDER_EVENTS_SECRET_ACCESS_KEY=SECRET SPRING_PROFILES_ACTIVE=dev,aws ./gradlew bootRun
+`
+
+**Run from your laptop terminal against Localstack**
+
+`
+SPRING_PROFILES_ACTIVE=dev,localstack ./gradlew bootRun
 `
 
 # Available Endpoints

@@ -8,7 +8,7 @@ offender-events:
   region: eu-west-2
 
 offender-events-dlq:
-    sqs-queue: ${offender.events.dlq.queue}
-    access-key-id: ${offender.events.dlq.access.key}
-    secret-access-key: ${offender.events.dlq.secret.access.key}
-    region: eu-west-2
+  sqs-queue: ${offender.events.dlq.queue}
+  access-key-id: ${offender.events.dlq.access.key}
+  secret-access-key: ${offender.events.dlq.secret.access.key}
+  region: eu-west-2

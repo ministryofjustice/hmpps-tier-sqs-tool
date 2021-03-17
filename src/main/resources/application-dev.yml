@@ -1,18 +1,4 @@
 spring:
-
-  jpa:
-    show-sql: false
-
-  datasource:
-    url: 'jdbc:h2:mem:hmpps-tier-sqs-tool;MODE=PostgreSQL;'
-    username: probation
-    password: tiering
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console-sqs-tool
-
   security:
     oauth2:
       resourceserver:
