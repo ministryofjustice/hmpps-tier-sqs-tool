@@ -27,6 +27,13 @@ docker-compose up -d
 SPRING_PROFILES_ACTIVE=dev,localstack ./gradlew bootRun
 `
 
+# testing
+
+When running locally, the tests require localstack docker to be running. They will change the state of the queues
+
+`docker-compose up -d
+./gradlew check`
+
 # Available Endpoints
 
 There are two endpoints `POST /file` and `POST /send`
@@ -39,5 +46,14 @@ The format must be a single column of CRNs with 'CRN' as the header of that colu
 `/send` allows you to pass an array of CRNs in the body of the message instead.
 
 `curl http://localhost:8080/send --request POST -d '["X387579"]' -H "Content-Type: application/json"`
+
+# queue management endpoints
+
+`GET /transfer`
+
+Moves all messages from the event dead letter queue onto the event queue
+Designed to be called from a cronjob
+
+`curl http://localhost:8080/transfer`
 
 -------
