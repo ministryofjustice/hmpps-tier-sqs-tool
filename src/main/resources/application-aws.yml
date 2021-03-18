@@ -3,12 +3,12 @@ sqs-provider: aws
 
 offender-events:
   sqs-queue: ${offender.events.queue}
-  access-key-id: ${offender.events.access.key}
+  access-key-id: ${offender.events.access.key.id}
   secret-access-key: ${offender.events.secret.access.key}
   region: eu-west-2
 
 offender-events-dlq:
   sqs-queue: ${offender.events.dlq.queue}
-  access-key-id: ${offender.events.dlq.access.key}
+  access-key-id: ${offender.events.dlq.access.key.id}
   secret-access-key: ${offender.events.dlq.secret.access.key}
   region: eu-west-2
