@@ -26,7 +26,14 @@ management.endpoint:
   health.cache.time-to-live: 0
   info.cache.time-to-live: 0
 
-aws:
-  access-key-id: test-access-key-id
-  secret-access-key: test-secret-key
+sqs-provider: localstack
+
+offender-events:
+  endpoint: http://localhost:4576
+  sqs-queue: http://localhost:4576/queue/Digital-Prison-Services-dev-hmpps_tier_offender_events_queue
+  region: eu-west-2
+
+offender-events-dlq:
+  endpoint: http://localhost:4576
+  sqs-queue: http://localhost:4576/queue/Digital-Prison-Services-dev-hmpps_tier_offender_events_queue_dl
   region: eu-west-2

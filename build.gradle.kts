@@ -24,12 +24,9 @@ dependencies {
   implementation("com.opencsv:opencsv:5.2")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+  testImplementation("org.awaitility:awaitility-kotlin:4.0.3")
 }
 
 tasks.register("fix") {
   dependsOn(":ktlintFormat")
-}
-
-tasks.withType<Test>() {
-  exclude("**/TransferQueueTest*")
 }
