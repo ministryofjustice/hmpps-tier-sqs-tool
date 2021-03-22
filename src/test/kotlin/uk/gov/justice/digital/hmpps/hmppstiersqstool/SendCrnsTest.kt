@@ -2,6 +2,8 @@ package uk.gov.justice.digital.hmpps.hmppstiersqstool
 
 import com.amazonaws.services.sqs.AmazonSQSAsync
 import com.amazonaws.services.sqs.model.PurgeQueueRequest
+import com.amazonaws.services.sqs.model.ReceiveMessageRequest
+import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.awaitility.kotlin.matches
 import org.awaitility.kotlin.untilCallTo
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
@@ -35,7 +37,10 @@ class SendCrnsTest {
 
   @Test
   fun `sends list of CRNs to queue`() {
-    webTestClient.post().uri("/send").contentType(MediaType.APPLICATION_JSON)
+    webTestClient
+      .post()
+      .uri("/send")
+      .contentType(APPLICATION_JSON)
       .body(
         Mono.just("[\"CRN1\",\"CRN2\"]"), String::class.java
       )
@@ -44,5 +49,7 @@ class SendCrnsTest {
       .isOk
 
     await untilCallTo { getNumberOfMessagesCurrentlyOnEventQueue(eventAwsSqsClient, eventQueueUrl) } matches { it == 2 }
+    val message = eventAwsSqsClient.receiveMessage(ReceiveMessageRequest(eventQueueUrl))
+    assertThat(message.messages.get(0).body).contains("CRN1")
   }
 }
