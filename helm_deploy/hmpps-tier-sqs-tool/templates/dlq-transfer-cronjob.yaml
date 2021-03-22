@@ -1,0 +1,19 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dlq-transfer-cronjob
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: dlq-transfer
+              image: quay.io/hmpps/dps-tools
+              args:
+                - /bin/sh
+                - -c
+                - curl http://hmpps-tier-sqs-tool/transfer
+          restartPolicy: Never

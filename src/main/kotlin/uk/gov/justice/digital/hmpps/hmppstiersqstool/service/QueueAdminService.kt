@@ -21,21 +21,20 @@ class QueueAdminService(
     val log: Logger = LoggerFactory.getLogger(this::class.java)
   }
 
-  fun transferMessages() =
-    repeat(getEventDlqMessageCount()) {
+  fun transferMessages() {
+    val dlqMessageCount = getEventDlqMessageCount().also { log.info("Transferring $it from $eventDlqUrl to $eventQueueUrl") }
+
+    repeat(dlqMessageCount) {
       eventAwsSqsDlqClient.receiveMessage(ReceiveMessageRequest(eventDlqUrl).withMaxNumberOfMessages(1)).messages
         .forEach { msg ->
           eventAwsSqsClient.sendMessage(eventQueueUrl, msg.body)
           eventAwsSqsDlqClient.deleteMessage(DeleteMessageRequest(eventDlqUrl, msg.receiptHandle))
         }
     }
+  }
 
-  private fun getEventDlqMessageCount(): Int {
-
-    val dlqMessageCount = eventAwsSqsDlqClient.getQueueAttributes(eventDlqUrl, listOf("ApproximateNumberOfMessages"))
+  private fun getEventDlqMessageCount() =
+    eventAwsSqsDlqClient.getQueueAttributes(eventDlqUrl, listOf("ApproximateNumberOfMessages"))
       .attributes["ApproximateNumberOfMessages"]
       ?.toInt() ?: 0
-    log.info("Transferring $dlqMessageCount from $eventDlqUrl to $eventQueueUrl")
-    return dlqMessageCount
-  }
 }

@@ -31,7 +31,6 @@ class CalculationRequestService(
         }
         eventAwsSqsClient.sendMessageBatch(SendMessageBatchRequest(queueUrl, messageRequests))
         log.info("Sent Batch")
-        // Thread.sleep(1000L)
       }
   }
 
