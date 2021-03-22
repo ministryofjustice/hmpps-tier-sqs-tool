@@ -18,7 +18,7 @@ import java.io.InputStreamReader
 
 @Service
 class CalculationRequestService(
-  private val amazonSQS: AmazonSQSAsync,
+  private val eventAwsSqsClient: AmazonSQSAsync,
   @Value("\${offender-events.sqs-queue}") val queueUrl: String
 ) {
 
@@ -29,7 +29,7 @@ class CalculationRequestService(
         messageRequests.forEach { req ->
           log.info("Sending message, ${req.messageBody}")
         }
-        amazonSQS.sendMessageBatch(SendMessageBatchRequest(queueUrl, messageRequests))
+        eventAwsSqsClient.sendMessageBatch(SendMessageBatchRequest(queueUrl, messageRequests))
         log.info("Sent Batch")
         // Thread.sleep(1000L)
       }

@@ -24,10 +24,7 @@ dependencies {
   implementation("com.opencsv:opencsv:5.2")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-}
-
-tasks.named<JavaExec>("bootRun") {
-  systemProperty("spring.profiles.active", "dev,aws")
+  testImplementation("org.awaitility:awaitility-kotlin:4.0.3")
 }
 
 tasks.register("fix") {

@@ -9,23 +9,28 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 
 @Configuration
-@ConditionalOnProperty(name = ["offender-events.sqs-provider"], havingValue = "localstack")
+@ConditionalOnProperty(name = ["sqs-provider"], havingValue = "localstack")
 class AwsLocalStackConfiguration(
-  @Value("\${aws.access-key-id}") val accessKeyId: String,
-  @Value("\${aws.secret-access-key}") val secretKey: String,
-  @Value("\${aws.region}") val region: String
+  @Value("\${offender-events.region}") val eventEndpoint: String,
+  @Value("\${offender-events.endpoint}") val eventRegion: String,
+  @Value("\${offender-events-dlq.region}") val dlqEndpoint: String,
+  @Value("\${offender-events-dlq.endpoint}") val dlqRegion: String
 ) {
 
-  @Primary
-  @Bean(name = ["localStackClient"])
-  fun awsSqsClientLocalstack(
-    @Value("\${offender-events.sqs-endpoint-url}") serviceEndpoint: String
-  ): AmazonSQSAsync {
+  @Bean(name = ["eventAwsSqsClient"])
+  fun eventAwsSqsClient(): AmazonSQSAsync {
     return AmazonSQSAsyncClientBuilder.standard()
-      .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(serviceEndpoint, region))
+      .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(eventEndpoint, eventRegion))
+      .withCredentials(AWSStaticCredentialsProvider(AnonymousAWSCredentials()))
+      .build()
+  }
+
+  @Bean(name = ["eventAwsSqsDlqClient"])
+  fun eventAwsSqsDlqClient(): AmazonSQSAsync {
+    return AmazonSQSAsyncClientBuilder.standard()
+      .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(dlqEndpoint, dlqRegion))
       .withCredentials(AWSStaticCredentialsProvider(AnonymousAWSCredentials()))
       .build()
   }

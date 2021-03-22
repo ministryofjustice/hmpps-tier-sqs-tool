@@ -12,11 +12,27 @@ The tool is deployed to `hmpps-tier-dev` and `hmpps-tier-preprod` environments, 
 
 `kubectl port-forward deployment/hmpps-tier-sqs-tool 8080:8080`
 
-**Run from your laptop terminal**
+**Run from your laptop terminal against AWS**
+
+`
+OFFENDER_EVENTS_DLQ_QUEUE=DLQURL OFFENDER_EVENTS_DLQ_ACCESS_KEY_ID=DLQKEY OFFENDER_EVENTS_DLQ_SECRET_ACCESS_KEY=DLQSECRET OFFENDER_EVENTS_QUEUE=URL OFFENDER_EVENTS_ACCESS_KEY_ID=KEY OFFENDER_EVENTS_SECRET_ACCESS_KEY=SECRET SPRING_PROFILES_ACTIVE=dev,aws ./gradlew bootRun
+`
+
+**Run from your laptop terminal against Localstack**
+
+Start up localstack to get the event queue and DLQ with one message on each
+
+`
+docker-compose up -d
+SPRING_PROFILES_ACTIVE=dev,localstack ./gradlew bootRun
+`
+
+# testing
+
+When running locally, the tests require localstack docker to be running. They will change the state of the queues
 
 `docker-compose up -d
-AWS_OFFENDER_EVENTS_QUEUE=SOME_URL AWS_OFFENDER_EVENTS_ACCESS_KEY=SOME_KEY AWS_OFFENDER_EVENTS_SECRET_ACCESS_KEY=SOME_SECRET ./gradlew bootRun`
-
+./gradlew check`
 
 # Available Endpoints
 
@@ -30,5 +46,14 @@ The format must be a single column of CRNs with 'CRN' as the header of that colu
 `/send` allows you to pass an array of CRNs in the body of the message instead.
 
 `curl http://localhost:8080/send --request POST -d '["X387579"]' -H "Content-Type: application/json"`
+
+# queue management endpoints
+
+`GET /transfer`
+
+Moves all messages from the event dead letter queue onto the event queue
+Designed to be called from a cronjob
+
+`curl http://localhost:8080/transfer`
 
 -------
