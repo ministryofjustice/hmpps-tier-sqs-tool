@@ -51,7 +51,7 @@ class TransferQueueTest {
       .expectStatus()
       .isOk
     await untilCallTo { getNumberOfMessagesCurrentlyOnDeadLetterQueue() } matches { it == 0 }
-    await untilCallTo { getNumberOfMessagesCurrentlyOnEventQueue() } matches { it == 1 }
+    await untilCallTo { getNumberOfMessagesCurrentlyOnEventQueue(eventAwsSqsClient, eventQueueUrl) } matches { it == 1 }
   }
 
   private fun putMessageOnDlq() {
@@ -66,11 +66,6 @@ class TransferQueueTest {
 
   fun getNumberOfMessagesCurrentlyOnDeadLetterQueue(): Int? {
     val queueAttributes = eventAwsSqsDlqClient.getQueueAttributes(eventDlqQueueUrl, listOf("ApproximateNumberOfMessages"))
-    return queueAttributes.attributes["ApproximateNumberOfMessages"]?.toInt()
-  }
-
-  fun getNumberOfMessagesCurrentlyOnEventQueue(): Int? {
-    val queueAttributes = eventAwsSqsClient.getQueueAttributes(eventQueueUrl, listOf("ApproximateNumberOfMessages"))
     return queueAttributes.attributes["ApproximateNumberOfMessages"]?.toInt()
   }
 }
