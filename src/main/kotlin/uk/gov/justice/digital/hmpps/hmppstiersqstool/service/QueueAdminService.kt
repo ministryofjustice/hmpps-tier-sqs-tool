@@ -22,8 +22,7 @@ class QueueAdminService(
   }
 
   fun transferMessages() {
-    val dlqMessageCount = getEventDlqMessageCount()
-    log.info("Transferring $dlqMessageCount from $eventDlqUrl to $eventQueueUrl")
+    val dlqMessageCount = getEventDlqMessageCount().also { log.info("Transferring $it from $eventDlqUrl to $eventQueueUrl") }
 
     repeat(dlqMessageCount) {
       eventAwsSqsDlqClient.receiveMessage(ReceiveMessageRequest(eventDlqUrl).withMaxNumberOfMessages(1)).messages
