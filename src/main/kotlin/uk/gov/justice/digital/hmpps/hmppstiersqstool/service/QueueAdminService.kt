@@ -35,7 +35,7 @@ class QueueAdminService(
   }
 
   fun emptyMessages() {
-    eventAwsSqsDlqClient.purgeQueue(PurgeQueueRequest(eventDlqUrl))
+    eventAwsSqsDlqClient.purgeQueue(PurgeQueueRequest(eventDlqUrl)).also { log.info("Emptying the dead letter queue") }
   }
 
   private fun getEventDlqMessageCount() =
