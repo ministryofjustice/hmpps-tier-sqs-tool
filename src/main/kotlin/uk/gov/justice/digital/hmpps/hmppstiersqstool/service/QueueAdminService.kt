@@ -2,6 +2,7 @@ package uk.gov.justice.digital.hmpps.hmppstiersqstool.service
 
 import com.amazonaws.services.sqs.AmazonSQS
 import com.amazonaws.services.sqs.model.DeleteMessageRequest
+import com.amazonaws.services.sqs.model.PurgeQueueRequest
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,6 +32,10 @@ class QueueAdminService(
           eventAwsSqsDlqClient.deleteMessage(DeleteMessageRequest(eventDlqUrl, msg.receiptHandle))
         }
     }
+  }
+
+  fun emptyMessages() {
+    eventAwsSqsDlqClient.purgeQueue(PurgeQueueRequest(eventDlqUrl))
   }
 
   private fun getEventDlqMessageCount() =

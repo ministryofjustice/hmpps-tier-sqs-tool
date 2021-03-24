@@ -15,13 +15,10 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class TransferQueueTest {
+class EmptyDeadLetterQueueTest {
 // only to be run locally with localstack running
 // if this fails, docker-compose up -d then retry
-// circleCI will do this automatically in the pipeline  
-
-  @Autowired
-  internal lateinit var eventAwsSqsClient: AmazonSQSAsync
+// circleCI will do this automatically in the pipeline
 
   @Autowired
   internal lateinit var eventAwsSqsDlqClient: AmazonSQSAsync
@@ -32,23 +29,18 @@ class TransferQueueTest {
   @Value("\${offender-events-dlq.sqs-queue}")
   lateinit var eventDlqQueueUrl: String
 
-  @Value("\${offender-events.sqs-queue}")
-  lateinit var eventQueueUrl: String
-
   @BeforeEach
   fun `purge Queues`() {
     eventAwsSqsDlqClient.purgeQueue(PurgeQueueRequest(eventDlqQueueUrl))
-    eventAwsSqsClient.purgeQueue(PurgeQueueRequest(eventQueueUrl))
   }
 
   @Test
-  fun `moves message from DLQ to main queue`() {
+  fun `removes all messages from DLQ`() {
     putMessageOnDlq(eventAwsSqsDlqClient, eventDlqQueueUrl)
-    webTestClient.get().uri("/transfer")
+    webTestClient.get().uri("/emptydlq")
       .exchange()
       .expectStatus()
       .isOk
     await untilCallTo { getNumberOfMessagesCurrentlyOnDeadLetterQueue(eventAwsSqsDlqClient, eventDlqQueueUrl) } matches { it == 0 }
-    await untilCallTo { getNumberOfMessagesCurrentlyOnEventQueue(eventAwsSqsClient, eventQueueUrl) } matches { it == 1 }
   }
 }
