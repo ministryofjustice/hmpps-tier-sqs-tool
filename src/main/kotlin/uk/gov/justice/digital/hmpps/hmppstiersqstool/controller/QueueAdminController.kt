@@ -11,4 +11,9 @@ class QueueAdminController(private val queueAdminService: QueueAdminService) {
   fun transferMessagesFromDeadLetterQueue() {
     queueAdminService.transferMessages()
   }
+
+  @GetMapping("/emptydlq")
+  fun emptyMessagesFromDeadLetterQueue() {
+    queueAdminService.emptyMessages()
+  }
 }
