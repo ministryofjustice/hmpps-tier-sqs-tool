@@ -67,4 +67,16 @@ class TransferQueueTest {
 
     verify(telemetryClient).trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to "X373878"), null)
   }
+
+  @Test
+  fun `can handle a malformed message`() {
+
+    eventAwsSqsDlqClient.sendMessage(eventDlqQueueUrl, "{\"some\": \"filth\"}")
+    webTestClient.get().uri("/transfer")
+      .exchange()
+      .expectStatus()
+      .isOk
+    await untilCallTo { getNumberOfMessagesCurrentlyOnDeadLetterQueue(eventAwsSqsDlqClient, eventDlqQueueUrl) } matches { it == 0 }
+    await untilCallTo { getNumberOfMessagesCurrentlyOnEventQueue(eventAwsSqsClient, eventQueueUrl) } matches { it == 1 }
+  }
 }
