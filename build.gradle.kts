@@ -22,6 +22,7 @@ dependencies {
 
   implementation("com.amazonaws:amazon-sqs-java-messaging-lib:1.0.8")
   implementation("com.opencsv:opencsv:5.2")
+  implementation("com.google.code.gson:gson:2.8.6")
 
   testAnnotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
   testImplementation("org.awaitility:awaitility-kotlin:4.0.3")
