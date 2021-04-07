@@ -68,7 +68,7 @@ workflows:
               only:
                 - main
       - hmpps/deploy_env:
-          name: deploy_dev
+          name: deploy_hmpps_tier_dev
           env: "dev"
           context:
             - hmpps-common-vars
@@ -81,34 +81,70 @@ workflows:
             - validate
             - build_docker
             - helm_lint
-      - request-preprod-approval:
+      - request-hmpps-tier-preprod-approval:
           type: approval
           requires:
-            - deploy_dev
+            - deploy_hmpps_tier_dev
       - hmpps/deploy_env:
-          name: deploy_preprod
+          name: deploy_hmpps_tier_preprod
           env: "preprod"
           context:
             - hmpps-common-vars
-            - hmpps-tier-sqs-tool-preprod
             - hmpps-tier-preprod
           requires:
-            - request-preprod-approval
-      - request-prod-approval:
+            - request-hmpps-tier-preprod-approval
+      - request-prod-hmpps-tier-approval:
           type: approval
           requires:
-            - deploy_preprod
+            - deploy_hmpps_tier_preprod
       - hmpps/deploy_env:
-          name: deploy_prod
+          name: deploy_hmpps_tier_prod
           env: "prod"
           slack_notification: false
           context:
             - hmpps-common-vars
-            - hmpps-tier-sqs-tool-prod
             - hmpps-tier-prod
           requires:
-            - request-prod-approval
-
+            - request-hmpps-tier-prod-approval
+      - hmpps/deploy_env:
+          name: deploy_delius_update_dev
+          env: "dev"
+          context:
+            - hmpps-common-vars
+            - hmpps-tier-to-delius-update-dev
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - validate
+            - build_docker
+            - helm_lint
+      - request-delius-update-preprod-approval:
+          type: approval
+          requires:
+            - deploy_delius_update_dev
+      - hmpps/deploy_env:
+          name: deploy_delius_update_preprod
+          env: "preprod"
+          context:
+            - hmpps-common-vars
+            - hmpps-tier-to-delius-update-preprod
+          requires:
+            - request-delius-update-preprod-approval
+      - request-delius-update-prod-approval:
+          type: approval
+          requires:
+            - deploy_delius_update_preprod
+      - hmpps/deploy_env:
+          name: deploy_delius_update_prod
+          env: "prod"
+          slack_notification: false
+          context:
+            - hmpps-common-vars
+            - hmpps-tier-to-delius-update-prod
+          requires:
+            - request-delius-update-prod-approval
   scheduled:
     triggers:
       - schedule:
