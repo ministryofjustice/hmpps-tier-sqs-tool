@@ -93,7 +93,7 @@ workflows:
             - hmpps-tier-preprod
           requires:
             - request-hmpps-tier-preprod-approval
-      - request-prod-hmpps-tier-approval:
+      - request-hmpps-tier-prod-approval:
           type: approval
           requires:
             - deploy_hmpps_tier_preprod
