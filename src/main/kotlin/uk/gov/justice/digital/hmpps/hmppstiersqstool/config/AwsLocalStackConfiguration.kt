@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConditionalOnProperty(name = ["sqs-provider"], havingValue = "localstack")
 class AwsLocalStackConfiguration(
-  @Value("\${offender-events.region}") val eventEndpoint: String,
-  @Value("\${offender-events.endpoint}") val eventRegion: String,
-  @Value("\${offender-events-dlq.region}") val dlqEndpoint: String,
-  @Value("\${offender-events-dlq.endpoint}") val dlqRegion: String
+  @Value("\${main-queue.region}") val eventEndpoint: String,
+  @Value("\${main-queue.endpoint}") val eventRegion: String,
+  @Value("\${dlq.region}") val dlqEndpoint: String,
+  @Value("\${dlq.endpoint}") val dlqRegion: String
 ) {
 
   @Bean(name = ["eventAwsSqsClient"])

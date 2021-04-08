@@ -13,41 +13,41 @@ env:
   - name: SPRING_PROFILES_ACTIVE
     value: "aws,logstash,stdout"
 
-  - name: OFFENDER_EVENTS_ACCESS_KEY_ID
+  - name: MAIN_QUEUE_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier-offender-events-sqs-instance-output
+        name: hmpps_tier_sqs_tool_main_queue
         key: access_key_id
 
-  - name: OFFENDER_EVENTS_SECRET_ACCESS_KEY
+  - name: MAIN_QUEUE_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier-offender-events-sqs-instance-output
+        name: hmpps_tier_sqs_tool_main_queue
         key: secret_access_key
 
-  - name: OFFENDER_EVENTS_QUEUE
+  - name: MAIN_QUEUE
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier-offender-events-sqs-instance-output
-        key: sqs_ptpu_url
+        name: hmpps_tier_sqs_tool_main_queue
+        key: sqs_queue_url
 
-  - name: OFFENDER_EVENTS_DLQ_ACCESS_KEY_ID
+  - name: DLQ_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier-offender-events-sqs-dl-instance-output
+        name: hmpps_tier_sqs_tool_main_queue
         key: access_key_id
 
-  - name: OFFENDER_EVENTS_DLQ_SECRET_ACCESS_KEY
+  - name: DLQ_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier-offender-events-sqs-dl-instance-output
+        name: hmpps_tier_sqs_tool_main_queue
         key: secret_access_key
 
-  - name: OFFENDER_EVENTS_DLQ_QUEUE
+  - name: DLQ_QUEUE
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier-offender-events-sqs-dl-instance-output
-        key: sqs_ptpu_url
+        name: hmpps_tier_sqs_tool_main_queue
+        key: sqs_queue_url
 
   - name: APPINSIGHTS_INSTRUMENTATIONKEY
     valueFrom:
