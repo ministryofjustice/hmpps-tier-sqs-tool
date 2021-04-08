@@ -31,7 +31,7 @@ class SendCrnsTest {
   @Autowired
   lateinit var webTestClient: WebTestClient
 
-  @Value("\${offender-events.sqs-queue}")
+  @Value("\${main-queue.sqs-queue}")
   lateinit var eventQueueUrl: String
 
   @BeforeEach

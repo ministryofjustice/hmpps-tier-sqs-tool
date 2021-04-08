@@ -26,7 +26,7 @@ class EmptyDeadLetterQueueTest {
   @Autowired
   lateinit var webTestClient: WebTestClient
 
-  @Value("\${offender-events-dlq.sqs-queue}")
+  @Value("\${dlq.sqs-queue}")
   lateinit var eventDlqQueueUrl: String
 
   @BeforeEach

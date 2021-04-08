@@ -18,8 +18,8 @@ class QueueAdminService(
   private val eventAwsSqsDlqClient: AmazonSQS,
   private val gson: Gson,
   private val telemetryClient: TelemetryClient,
-  @Value("\${offender-events.sqs-queue}") private val eventQueueUrl: String,
-  @Value("\${offender-events-dlq.sqs-queue}") private val eventDlqUrl: String
+  @Value("\${main-queue.sqs-queue}") private val eventQueueUrl: String,
+  @Value("\${dlq.sqs-queue}") private val eventDlqUrl: String
 
 ) {
 

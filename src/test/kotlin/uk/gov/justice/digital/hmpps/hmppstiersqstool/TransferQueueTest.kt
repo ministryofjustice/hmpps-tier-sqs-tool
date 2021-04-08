@@ -34,10 +34,10 @@ class TransferQueueTest {
   @Autowired
   lateinit var telemetryClient: TelemetryClient
 
-  @Value("\${offender-events-dlq.sqs-queue}")
+  @Value("\${dlq.sqs-queue}")
   lateinit var eventDlqQueueUrl: String
 
-  @Value("\${offender-events.sqs-queue}")
+  @Value("\${main-queue.sqs-queue}")
   lateinit var eventQueueUrl: String
 
   @BeforeEach
