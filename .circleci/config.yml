@@ -106,24 +106,19 @@ workflows:
             - hmpps-tier-prod
           requires:
             - request-hmpps-tier-prod-approval
-      - request-delius-update-dev-approval:
-          type: approval
-          requires:
-            - validate
-            - build_docker
-            - helm_lint
       - hmpps/deploy_env:
           name: deploy_delius_update_dev
           env: "dev"
           context:
-            - hmpps-common-vars
             - hmpps-tier-to-delius-update-dev
           filters:
             branches:
               only:
                 - main
           requires:
-            - request-delius-update-dev-approval
+            - validate
+            - build_docker
+            - helm_lint
       - request-delius-update-preprod-approval:
           type: approval
           requires:
