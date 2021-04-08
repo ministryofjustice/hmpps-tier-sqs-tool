@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConditionalOnProperty(name = ["sqs-provider"], havingValue = "aws")
 class AwsConfiguration(
-  @Value("\${offender-events.access-key-id}") val eventAccessKeyId: String,
-  @Value("\${offender-events.secret-access-key}") val eventSecretKey: String,
-  @Value("\${offender-events.region}") val eventRegion: String,
-  @Value("\${offender-events-dlq.access-key-id}") val dlqAccessKeyId: String,
-  @Value("\${offender-events-dlq.secret-access-key}") val dlqSecretKey: String,
-  @Value("\${offender-events-dlq.region}") val dlqRegion: String
+  @Value("\${main-queue.access-key-id}") val eventAccessKeyId: String,
+  @Value("\${main-queue.secret-access-key}") val eventSecretKey: String,
+  @Value("\${main-queue.region}") val eventRegion: String,
+  @Value("\${dlq.access-key-id}") val dlqAccessKeyId: String,
+  @Value("\${dlq.secret-access-key}") val dlqSecretKey: String,
+  @Value("\${dlq.region}") val dlqRegion: String
 ) {
 
   @Bean(name = ["eventAwsSqsClient"])

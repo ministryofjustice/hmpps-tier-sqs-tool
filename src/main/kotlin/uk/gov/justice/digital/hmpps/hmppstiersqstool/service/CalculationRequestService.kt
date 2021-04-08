@@ -19,7 +19,7 @@ import java.io.InputStreamReader
 @Service
 class CalculationRequestService(
   private val eventAwsSqsClient: AmazonSQSAsync,
-  @Value("\${offender-events.sqs-queue}") val queueUrl: String
+  @Value("\${main-queue.sqs-queue}") val queueUrl: String
 ) {
 
   fun sendMessagesFromList(requests: Collection<String>) {
