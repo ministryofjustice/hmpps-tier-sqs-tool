@@ -16,37 +16,37 @@ env:
   - name: MAIN_QUEUE_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
-        name: hmpps_tier_sqs_tool_main_queue
+        name: hmpps-tier-sqs-tool-main-queue
         key: access_key_id
 
   - name: MAIN_QUEUE_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: hmpps_tier_sqs_tool_main_queue
+        name: hmpps-tier-sqs-tool-main-queue
         key: secret_access_key
 
   - name: MAIN_QUEUE
     valueFrom:
       secretKeyRef:
-        name: hmpps_tier_sqs_tool_main_queue
+        name: hmpps-tier-sqs-tool-main-queue
         key: sqs_queue_url
 
   - name: DLQ_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
-        name: hmpps_tier_sqs_tool_main_queue
+        name: hmpps-tier-sqs-tool-dead-letter-queue
         key: access_key_id
 
   - name: DLQ_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: hmpps_tier_sqs_tool_main_queue
+        name: hmpps-tier-sqs-tool-dead-letter-queue
         key: secret_access_key
 
   - name: DLQ_QUEUE
     valueFrom:
       secretKeyRef:
-        name: hmpps_tier_sqs_tool_main_queue
+        name: hmpps-tier-sqs-tool-dead-letter-queue
         key: sqs_queue_url
 
   - name: APPINSIGHTS_INSTRUMENTATIONKEY
