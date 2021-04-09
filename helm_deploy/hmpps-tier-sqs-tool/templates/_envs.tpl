@@ -52,6 +52,6 @@ env:
   - name: APPINSIGHTS_INSTRUMENTATIONKEY
     valueFrom:
       secretKeyRef:
-        name: hmpps-tier
+        name: hmpps-tier-sqs-tool
         key: APPINSIGHTS_INSTRUMENTATIONKEY
 {{- end -}}
