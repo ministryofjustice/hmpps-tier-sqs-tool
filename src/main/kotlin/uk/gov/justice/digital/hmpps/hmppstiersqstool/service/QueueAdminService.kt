@@ -44,7 +44,7 @@ class QueueAdminService(
     try {
       val message = gson.fromJson(msg, SQSMessage::class.java).Message
       val crn = gson.fromJson(message, Event::class.java).crn
-      telemetryClient.trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to crn, "queueName" to eventDlqUrl), null)
+      telemetryClient.trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to crn, "queueName" to eventDlqUrl.split("Digital-Prison-Services-")[1]), null)
     } catch (e: RuntimeException) {
       log.info(e.message)
       log.info(msg)

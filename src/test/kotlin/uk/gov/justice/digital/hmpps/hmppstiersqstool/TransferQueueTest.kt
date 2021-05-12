@@ -65,7 +65,7 @@ class TransferQueueTest {
       .expectStatus()
       .isOk
 
-    verify(telemetryClient).trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to "X373878", "queueName" to eventDlqQueueUrl), null)
+    verify(telemetryClient).trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to "X373878", "queueName" to "dev-hmpps_tier_offender_events_queue_dl"), null)
   }
 
   @Test
