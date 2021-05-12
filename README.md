@@ -1,6 +1,7 @@
 # hmpps-tier-sqs-tool
 
-A utility to manually trigger the recalculation of service users's Tier score.
+A utility to manually trigger the recalculation of a service user's Tier score.
+Also used to move messages off the dead letter queue onto the main queue, and (manually) to empty the dead letter queue 
 
 `hmpps-tier-sqs-tool` is used to create a message or messages on the SNS instance `hmpps-tier` uses to subscribe to the Offender Events SNS and so force it to perform a calculation for the subject of the message.
 
@@ -8,9 +9,9 @@ A utility to manually trigger the recalculation of service users's Tier score.
 
 **Use the deployed instances**
 
-The tool is deployed to `hmpps-tier-dev` and `hmpps-tier-preprod` environments, and can be port forwarded to in the normal kubernetes way. It might need to be scaled up first!
+The tool is deployed to all `hmpps-tier` and `hmpps-tier-to-delius-update` environments, and can be port forwarded to in the normal kubernetes way. It might need to be scaled up first!
 
-`kubectl port-forward deployment/hmpps-tier-sqs-tool 8080:8080`
+`kubectl port-forward deployment/hmpps-tier-sqs-tool 8080:8080 -n NAMESPACE`
 
 **Run from your laptop terminal against AWS**
 
@@ -34,7 +35,8 @@ When running locally, the tests require localstack docker to be running. They wi
 `docker-compose up -d
 ./gradlew check`
 
-# Available Endpoints
+# Tier calculation request Endpoints
+## only useful when deployed to hmpps-tier. Do not use in hmpps-tier-delius-update 
 
 There are two endpoints `POST /file` and `POST /send`
 
@@ -48,12 +50,17 @@ The format must be a single column of CRNs with 'CRN' as the header of that colu
 `curl http://localhost:8080/send --request POST -d '["X387579"]' -H "Content-Type: application/json"`
 
 # queue management endpoints
-
+## useful in all environments
 `GET /transfer`
 
-Moves all messages from the event dead letter queue onto the event queue
+Moves all messages from the dead letter queue onto the main queue
 Designed to be called from a cronjob
 
 `curl http://localhost:8080/transfer`
+
+`GET /emptydlq`
+
+Deletes all messages on the dead letter queue. To be used when the message can never be processed successfully  
+
 
 -------

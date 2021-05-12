@@ -4,6 +4,7 @@ plugins {
   kotlin("plugin.spring") version "1.4.30"
   kotlin("plugin.jpa") version "1.4.30"
   id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
+  id("io.gitlab.arturbosch.detekt").version("1.17.0-RC2")
 }
 
 configurations {
@@ -30,4 +31,16 @@ dependencies {
 
 tasks.register("fix") {
   dependsOn(":ktlintFormat")
+}
+
+detekt {
+  config = files("src/test/resources/detekt-config.yml")
+  buildUponDefaultConfig = true
+  ignoreFailures = true
+}
+
+tasks {
+  getByName("check") {
+    dependsOn(":ktlintCheck", "detekt")
+  }
 }

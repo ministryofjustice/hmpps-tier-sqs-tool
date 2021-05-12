@@ -2,7 +2,6 @@ package uk.gov.justice.digital.hmpps.hmppstiersqstool.service
 
 import com.amazonaws.services.sqs.AmazonSQS
 import com.amazonaws.services.sqs.model.DeleteMessageRequest
-import com.amazonaws.services.sqs.model.Message
 import com.amazonaws.services.sqs.model.PurgeQueueRequest
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest
 import com.google.gson.Gson
@@ -44,8 +43,8 @@ class QueueAdminService(
   private fun recordCrn(msg: String) {
     try {
       val message = gson.fromJson(msg, SQSMessage::class.java).Message
-      val crn = gson.fromJson(message, TierChangeEvent::class.java).crn
-      telemetryClient.trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to crn), null)
+      val crn = gson.fromJson(message, Event::class.java).crn
+      telemetryClient.trackEvent("TierCRNFromDeadLetterQueue", mapOf("crn" to crn, "queueName" to eventDlqUrl.split("Digital-Prison-Services-")[1]), null)
     } catch (e: RuntimeException) {
       log.info(e.message)
       log.info(msg)
@@ -66,7 +65,7 @@ class QueueAdminService(
     val MessageId: String
   )
 
-  data class TierChangeEvent(
+  data class Event(
     val crn: String
   )
 }
