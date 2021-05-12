@@ -112,6 +112,10 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-tier-to-delius-update-dev
+          filters:
+            branches:
+              only:
+                - main
           requires:
             - validate
             - build_docker
