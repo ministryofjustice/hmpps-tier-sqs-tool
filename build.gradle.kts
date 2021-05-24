@@ -1,10 +1,10 @@
 
 plugins {
-  id("uk.gov.justice.hmpps.gradle-spring-boot") version "3.1.6"
-  kotlin("plugin.spring") version "1.4.30"
-  kotlin("plugin.jpa") version "1.4.30"
+  id("uk.gov.justice.hmpps.gradle-spring-boot") version "3.2.1"
+  kotlin("plugin.spring") version "1.5.0"
+  kotlin("plugin.jpa") version "1.5.0"
   id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
-  id("io.gitlab.arturbosch.detekt").version("1.17.0-RC2")
+  id("io.gitlab.arturbosch.detekt").version("1.17.1")
 }
 
 configurations {
@@ -42,5 +42,10 @@ detekt {
 tasks {
   getByName("check") {
     dependsOn(":ktlintCheck", "detekt")
+  }
+  compileKotlin {
+    kotlinOptions {
+      jvmTarget = "16"
+    }
   }
 }
