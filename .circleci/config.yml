@@ -132,16 +132,17 @@ workflows:
             - hmpps-tier-to-delius-update-prod
           requires:
             - request-delius-update-prod-approval
-  scheduled:
+
+  security:
     triggers:
       - schedule:
-          cron: "0 6 * * 1-5"
+          cron: "0 9 * * 1-5"
           filters:
             branches:
               only:
                 - main
     jobs:
-      - owasp/gradle_owasp_dependency_check:
-          executor:
-            name: hmpps/java
-            tag: "16.0"
+      - hmpps/gradle_owasp_dependency_check:
+          context:
+            - hmpps-common-vars
+
