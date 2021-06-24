@@ -29,10 +29,6 @@ dependencies {
   testImplementation("org.awaitility:awaitility-kotlin:4.0.3")
 }
 
-tasks.register("fix") {
-  dependsOn(":ktlintFormat")
-}
-
 detekt {
   config = files("src/test/resources/detekt-config.yml")
   buildUponDefaultConfig = true
