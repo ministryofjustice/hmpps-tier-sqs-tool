@@ -1,8 +1,13 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.3.0
-  slack: circleci/slack@4.3.1
+  hmpps: ministryofjustice/hmpps@3.6.0
+  slack: circleci/slack@4.4.2
+
+parameters:
+  alerts-slack-channel:
+    type: string
+    default: manage_a_workforce_dev
 
 jobs:
   validate:
@@ -31,20 +36,7 @@ jobs:
       - slack/notify:
           event: fail
           channel: manage_a_workforce_dev
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "hmpps-tier-sqs-tool validate failed"
-                    }
-                  ]
-                }
-              ]
-            }
+          template: basic_fail_1
       - save_cache:
           paths:
             - ~/.gradle
@@ -104,7 +96,6 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_hmpps_tier_prod
           env: "prod"
-          slack_notification: false
           context:
             - hmpps-common-vars
             - hmpps-tier-prod
@@ -143,7 +134,6 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_delius_update_prod
           env: "prod"
-          slack_notification: false
           context:
             - hmpps-common-vars
             - hmpps-tier-to-delius-update-prod
@@ -160,6 +150,7 @@ workflows:
                 - main
     jobs:
       - hmpps/gradle_owasp_dependency_check:
+          slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
             - hmpps-common-vars
 
