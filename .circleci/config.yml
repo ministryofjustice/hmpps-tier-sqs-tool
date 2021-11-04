@@ -68,7 +68,6 @@ workflows:
           env: "dev"
           context:
             - hmpps-common-vars
-            - hmpps-tier-dev
           filters:
             branches:
               only:
