@@ -1,3 +1,5 @@
+# Archived 12/11/2021 - replaced by https://github.com/ministryofjustice/hmpps-spring-boot-sqs/
+
 # hmpps-tier-sqs-tool
 
 A utility to manually trigger the recalculation of a service user's Tier score.
